@@ -20,8 +20,6 @@ class Trainer:
         self.model = model
         self.optim = optim
         self.criterion = criterion
-        # self.optim = torch.optim.SGD(model.parameters(), lr=learning_rate)
-        # self.criterion = torch.nn.BCEWithLogitsLoss()
         self.epochs = epochs
 
         self.global_step = 0
@@ -88,7 +86,6 @@ class Trainer:
         y = y.detach().cpu().numpy()
         y = np.argmax(y, axis=1)
         acc = accuracy_score(pred, y)
-        # acc = (pred == y).mean()
         return loss, acc
 
     def test_step(self, x: torch.Tensor, y: torch.Tensor):
@@ -99,28 +96,25 @@ class Trainer:
         prediction = self.model.forward(x)
 
         pred = prediction.detach().cpu().numpy()
-        # pred = np.where(pred > 0.5, 1, 0)
         y = y.detach().cpu().numpy()
         pred = np.argmax(pred, axis=1)
         y = np.argmax(y, axis=1)
-        # acc = (pred == y).mean()
         acc = accuracy_score(pred, y)
         return acc
 
     def plot_loss(self, title):
         now = datetime.now()
         t = now.strftime("%Y-%m-%d")
-        save_name = 'output/' + title + t + '.png'
+        save_name = title + t + '.png'
         plt.plot(self.train_loss)
         plt.title(str(title))
         plt.savefig(save_name)
-        # plt.plot(self.train_accuracies)
         plt.show()
 
     def save_data(self, title):
         now = datetime.now()
         t = now.strftime("%Y-%m-%d")
-        title = 'output/' + title + t + '.json'
+        title = title + t + '.json'
         out_dict = {
             'epoch_accuracies': self.train_accuracies,
             'epoch_loss': self.train_loss,

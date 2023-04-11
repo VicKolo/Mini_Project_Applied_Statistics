@@ -10,6 +10,7 @@ from dataloaders import ProjectDataset
 from datetime import datetime
 
 
+# Set seeds for deterministic outcome
 torch.manual_seed(1)
 random.seed(1)
 np.random.seed(1)
@@ -24,7 +25,8 @@ def main():
     input_size = c.INPUT_SIZE
     output_classes = c.OUTPUT_CLASSES
 
-    experiment_setup = pd.read_csv("setup/randomized_experiment.csv", delimiter=',')
+    # Needs dataset as .csv file in directory
+    experiment_setup = pd.read_csv("randomized_experiment.csv", delimiter=',')
     curated_setup = experiment_setup.drop(experiment_setup.columns[[0, 1]], axis=1)
 
     for row in curated_setup.iterrows():
@@ -42,7 +44,7 @@ def main():
         print(layer_size)
         print(layer_number)
 
-        training_data = ProjectDataset('data/fashion-mnist_train.csv', one_hot_encode=True)
+        training_data = ProjectDataset('fashion-mnist_train.csv', one_hot_encode=True)
         train_loader = torch.utils.data.DataLoader(
             training_data,
             batch_size=batch_size,
@@ -51,7 +53,7 @@ def main():
             drop_last=True
         )
 
-        test_data = ProjectDataset('data/fashion-mnist_test.csv', one_hot_encode=True)
+        test_data = ProjectDataset('fashion-mnist_test.csv', one_hot_encode=True)
         test_loader = torch.utils.data.DataLoader(
             test_data,
             batch_size=batch_size,

@@ -1,9 +1,7 @@
 import torch
 import pandas as pd
 import numpy as np
-from torchvision import transforms
 from torch.utils.data.dataset import Dataset
-import matplotlib.pyplot as plt
 
 
 class ProjectDataset(Dataset):
@@ -32,8 +30,4 @@ class ProjectDataset(Dataset):
     def __getitem__(self, i):
         y = self.y[i]
         x = self.X[i]
-        # img = x.reshape((28, 28))
-        # plt.imshow(img)
-        # plt.title(str(y))
-        # plt.show()
         return torch.tensor(x, dtype=torch.float), torch.tensor(y, dtype=torch.float)
